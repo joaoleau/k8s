@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: webdic
+  name: webdic
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webdic
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: webdic
+    spec:
+      volumes:
+        - name: index
+          configMap:
+            name: webapache-cm
+      containers:
+      - image: httpd:2.4
+        name: webdic
+        ports:
+          - name: http
+            containerPort: 80
+        volumeMounts:
+          - name: index
+            mountPath: '/usr/local/apache2/htdocs/index.html'
+            subPath: 'index.html'
+        resources: {}
+status: {}

@@ -1,0 +1,12 @@
+apiVersion: k6.io/v1alpha1
+kind: TestRun
+metadata:
+  name: k6job-capacity-test
+  namespace: monitoring
+spec:
+  parallelism: 10
+  script:
+    configMap:
+      name: k6job-cm
+      file: script.js
+  runner: {}
