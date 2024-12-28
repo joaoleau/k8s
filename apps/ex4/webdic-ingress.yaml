@@ -3,9 +3,12 @@ kind: Ingress
 metadata:
   name: webdic-ingress
   namespace: apps
+  annotations:
+    konghq.com/strip-path: "true"
+    kubernetes.io/ingress.class: "kong"
 spec:
   rules:
-  - host: leal.webdic.com
+  - host: webdic.leal.services
     http:
       paths:
       - backend:

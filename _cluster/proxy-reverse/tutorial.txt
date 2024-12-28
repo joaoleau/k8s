@@ -1,0 +1,15 @@
+1. Subir um Nginx na mesma rede que o Kuberntes Kind esta rodando 'kind':
+docker run -d --name nginx-proxy-reverse --network kind -p 80:80 nginx
+
+2. Colar nosso nginx.conf pra dentro do nginx-proxy-reverse:
+docker cp ./nginx.conf nginx-proxy-reverse:/etc/nginx/nginx.conf
+
+3. Reiniciar o Nginx:
+docker exec nginx-proxy-reverse nginx -T
+docker exec nginx-proxy-reverse nginx -s reload
+
+4. Desabilitar o defaults do Nginx:
+docker exec nginx-proxy-reverse sh -c "cp /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf_bkp"
+docker exec nginx-proxy-reverse sh -c "rm /etc/nginx/conf.d/default.conf"
+
+5. Prontinho!! Agora basta editar seus hosts do SO: Windows/System32/drivers/etc/hosts
