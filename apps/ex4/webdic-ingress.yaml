@@ -4,9 +4,9 @@ metadata:
   name: webdic-ingress
   namespace: apps
   annotations:
-    konghq.com/strip-path: "true"
-    kubernetes.io/ingress.class: "kong"
+    cert-manager.io/cluster-issuer: "selfsigned-encrypt"
 spec:
+  ingressClassName: kong
   rules:
   - host: webdic.leal.services
     http:
@@ -18,5 +18,10 @@ spec:
               number: 80
         path: /
         pathType: Prefix
+  tls:
+    - secretName: webdic-tls
+      hosts:
+        - webdic.leal.services
+
 status:
   loadBalancer: {}
