@@ -1,0 +1,8 @@
+apiVersion: v1
+data:
+  index.html: |
+      Bem-vindo ao Apache rodando no Kubernetes!
+kind: ConfigMap
+metadata:
+  name: webapache-cm
+  namespace: apps

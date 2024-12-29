@@ -9,7 +9,7 @@ spec:
         repoURL: https://github.com/joaoleau/k8s.git
         revision: HEAD
         directories:
-          - path: gitops/*
+          - path: gitops/appset/*
   template:
     metadata:
       name: '{{path.basename}}'

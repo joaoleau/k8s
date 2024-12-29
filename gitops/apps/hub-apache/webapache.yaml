@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: webapache
+  name: webapache
+  namespace: apps
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webapache
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: webapache
+    spec:
+      volumes:
+        - name: index
+          configMap:
+            name: 'webapache-cm'
+      containers:
+      - image: httpd:2.4
+        name: httpd
+        ports:
+          - name: http
+            containerPort: 80
+        resources:
+          requests:
+            cpu: 10m
+            memory: 16Mi
+          limits:
+            cpu: 15m
+            memory: 20Mi
+        volumeMounts:
+          - name: index
+            mountPath: '/usr/local/apache2/htdocs/index.html'
+            subPath: 'index.html'
+status: {}
