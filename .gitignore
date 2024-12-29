@@ -18,7 +18,7 @@ bin
 *~
 
 /manager
-charts/argo-cd
+argo-cd
 
 kubebuilder-tools-*
 

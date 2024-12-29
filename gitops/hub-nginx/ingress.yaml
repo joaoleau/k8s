@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-hub
+  namespace: apps
+  annotations: {}
+spec:
+  ingressClassName: kong
+  rules:
+  - host: nginx-hub.leal.services
+    http:
+      paths:
+      - backend:
+          service:
+            name: nginx-hub
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+
+status:
+  loadBalancer: {}
