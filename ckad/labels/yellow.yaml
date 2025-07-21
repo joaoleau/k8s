@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: yellow
+  labels:
+    app: nginx
+    color: yellow
+spec:
+  containers:
+    - name: yellow
+      image: nginx:latest
+      volumeMounts:
+        - name: yellow-cm
+          mountPath: /usr/share/nginx/html/index.html
+          subPath: index.html
+      ports:
+        - containerPort: 80
+  volumes:
+    - name: yellow-cm
+      configMap:
+        name: yellow-cm

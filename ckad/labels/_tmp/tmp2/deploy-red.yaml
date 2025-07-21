@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    color: red
+  name: red
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      color: red
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nginx
+         k
+        env: dev
+    spec:
+      containers:
+      - image: nginx:latest
+        name: red
+        volumeMounts:
+          - name: index-red
+            mountPath: /usr/share/nginx/html/index.html
+            subPath: index.html
+        ports:
+          - containerPort: 80
+      volumes:
+      - name: index-red
+        configMap:
+          name: index-red
+status: {}

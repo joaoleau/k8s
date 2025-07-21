@@ -1,0 +1,57 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: job-fly
+spec:
+  completions: 10
+  parallelism: 5
+  completionMode: Indexed # NonIndexed
+  backoffLimitPerIndex: 1
+  maxFailedIndexes: 1
+  successPolicy:
+    rules:
+      - succeededIndexes: 0,2-3
+        succeededCount: 1
+  podFailurePolicy:
+    rules:
+      - action: FailJob
+        onExitCodes:
+          containerName: job-fly
+          operator: In  #In, NotIn
+          values: [42]
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+      - image: python:slim
+        name: job-fly
+        command:
+          - python3
+          - -c
+          - |
+            import random
+            import sys
+            import time
+            import os
+
+            numero = random.randint(1, 3)
+
+            if numero == 2:
+                print(os.getenv("JOB_COMPLETION_INDEX"))
+                print("Erro: O numero sorteado foi 2")
+                time.sleep(3)
+                sys.exit(1)
+            if numero == 3:
+                print(os.getenv("JOB_COMPLETION_INDEX"))
+                print("Erro: O numero sorteado foi 3")
+                time.sleep(3)
+                sys.exit(42)    
+            else:
+                print(os.getenv("JOB_COMPLETION_INDEX"))
+                print("Completed: Estagiario ta voando")
+                sys.exit(0)  
+        resources: {}
+      restartPolicy: Never
+status: {}

@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: key-app
+  name: key-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: key-app
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: key-app
+    spec:
+      containers:
+      - image: python:slim
+        name: python
+        command:
+          - python3
+          - -c
+          - |
+            import http.server
+            import socketserver
+            import os
+
+            class Handler(http.server.SimpleHTTPRequestHandler):
+                def do_GET(self):
+                    self.send_response(int(os.getenv("RESPONSE_CODE")))
+                    self.send_header("Content-type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(b'{"message": "OK"}') if int(os.getenv("RESPONSE_CODE")) == 200 else self.wfile.write(b'{"message": "Error"}')
+
+            with socketserver.TCPServer(("", 5000), Handler) as httpd:
+                httpd.serve_forever()
+        
+          
+        env:
+          - name: RESPONSE_CODE
+            value: "200"
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: key-app
+  name: key-app
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: key-app
+  type: ClusterIP
+status:
+  loadBalancer: {}

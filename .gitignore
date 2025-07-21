@@ -23,3 +23,8 @@ argo-cd
 kubebuilder-tools-*
 
 .vscode
+*.terraform
+/.terraform
+*tfstate
+desktop.ini
+_cluster/k3s/*

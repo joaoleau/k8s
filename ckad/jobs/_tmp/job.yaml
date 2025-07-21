@@ -1,0 +1,52 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-fly
+spec:
+  completions: 8
+  parallelism: 3
+  #completionMode: Indexed  # required for the feature
+  # backoffLimitPerIndex: 2  # maximal number of failures per index
+  # maxFailedIndexes: 1     # 
+  template:
+    spec:
+      containers:
+      - name: main
+        image: python:slim
+        command:
+          - python3
+          - -c
+          - |
+            import random
+            import sys
+            import time
+
+            numero = random.randint(1, 3)
+
+            if numero == 2:
+                print("Erro: O numero sorteado foi 2")
+                time.sleep(10)
+                sys.exit(1)
+            if numero == 3:
+                print("Erro: O numero sorteado foi 3")
+                time.sleep(10)
+                sys.exit(1)
+            else:
+                print("Completed: Estagiario ta voando")
+                sys.exit(0)                  
+      restartPolicy: OnFailure
+  
+  # ttlSecondsAfterFinished: 100
+
+  backoffLimit: 4
+  activeDeadlineSeconds: 180
+  # podFailurePolicy:
+  #   rules:
+  #   - action: FailJob
+  #     onExitCodes:
+  #       containerName: main
+  #       operator: In
+  #       values: [2]
+  #   - action: Ignore
+  #     onPodConditions:
+  #     - type: DisruptionTarget 

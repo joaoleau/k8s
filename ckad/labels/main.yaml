@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: main
+  labels:
+    app: main
+spec:
+  containers:
+    - name: main
+      image: nginx:latest
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: main2
+  labels:
+    app: main
+spec:
+  containers:
+    - name: main2
+      image: nginx:latest
+      resources:
+        requests:
+          cpu: 20m
+          memory: 30Mi
+        limits:
+          cpu: 20m
+          memory: 30Mi
+

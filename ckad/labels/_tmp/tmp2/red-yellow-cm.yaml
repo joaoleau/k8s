@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: index-yellow
+data:
+  index.html: |
+    Yellow
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: index-red
+data:
+  index.html: |
+    Red0
+    

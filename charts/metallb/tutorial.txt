@@ -1,5 +1,0 @@
-helm repo add metallb https://metallb.github.io/metallb
-#helm repo add frr-k8s https://metallb.github.io/frr-k8s
-helm repo update
-helm install metallb --namespace metallb-system metallb/metallb -f values.yaml
-#helm install frr-k8s --namespace metallb-system metallb/frr-k8s -f values.yaml

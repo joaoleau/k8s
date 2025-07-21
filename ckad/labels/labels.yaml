@@ -1,0 +1,54 @@
+# Introdução
+introducao:
+  - Labels are key/value pairs that are attached to objects such as Pods
+  - Labels can be used to organize and to select subsets of objects.
+  - Each object can have a set of key/value labels defined.
+---
+# Labels são metadados
+metadata:
+  labels:
+    key1: value1
+    key2: value2
+---
+# Exemplo de Labels:
+metadata:
+  labels:
+    "release": "stable"
+    "environment": "dev"
+    "tier": "frontend"
+    "partition": "customerA"
+---
+# Exemplo de Pod com Labels
+apiVersion: v1
+kind: Pod
+metadata:
+  name: label-demo
+  labels:
+    environment: production
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
+---
+# Selector
+selector:
+  matchLabels:
+    component: redis
+  matchExpressions:
+    - { key: tier, operator: In, values: [cache, abc] }
+    - { key: environment, operator: NotIn, values: [dev] }
+---
+# Chamadas de APIs
+apis:
+  # Filtrar pods por labels
+  - kubectl get pods -lapp=guestbook,role=replica
+
+  # Filtrar pods por labels 2
+  - kubectl get pods -l 'environment in (production),tier in (frontend)'
+
+  # Atualizar pods por labels
+  - kubectl label pods -l app=nginx tier=fe
+

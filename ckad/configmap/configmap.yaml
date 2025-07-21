@@ -1,0 +1,13 @@
+apiVersion: v1
+data:
+  config.json: |
+    {
+      "name":"jorge",
+      "idade":20
+    }
+  fadinha.txt: | 
+    oieee
+kind: ConfigMap
+metadata:
+  name: config
+  namespace: default

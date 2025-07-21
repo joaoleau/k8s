@@ -1,0 +1,12 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget 
+metadata:
+  name: colors-pdb
+spec:
+  selector:
+    matchExpressions:
+      - key: "color"
+        operator: "In"
+        values: ["red"]
+  minAvailable: 2
+

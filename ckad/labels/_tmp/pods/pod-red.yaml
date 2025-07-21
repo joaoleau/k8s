@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: red
+  namespace: default
+  labels:
+    app: nginx
+    color: red
+spec:
+  containers:
+    - image: nginx:latest
+      name: red
+      volumeMounts:
+        - name: index-red
+          mountPath: /usr/share/nginx/html/index.html
+          subPath: index.html
+      ports:
+        - containerPort: 80
+  volumes:
+    - name: index-red
+      configMap:
+        name: index-red

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: quota-default
+spec:
+  scopeSelector:
+    matchExpressions:
+      - operator: Exists
+        scopeName: BestEffort
+  hard:
+    pods: "3"

@@ -1,3 +1,0 @@
-helm repo add kong https://charts.konghq.com
-helm repo update
-helm install kong --namespace ingress kong/ingress -f values.yaml

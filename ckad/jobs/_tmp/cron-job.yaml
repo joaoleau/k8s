@@ -1,0 +1,46 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: clean-failed-pods
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: job-cleaner-sa
+          containers:
+          - name: cleaner
+            image: bitnami/kubectl
+            command:
+              - /bin/sh
+              - -c
+              - "kubectl delete pod --field-selector=status.phase=Failed"
+          restartPolicy: OnFailure
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: job-cleaner-sa
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: job-cleaner-role
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["delete", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: job-cleaner-rolebinding
+subjects:
+- kind: ServiceAccount
+  name: job-cleaner-sa
+  namespace: default
+roleRef:
+  kind: Role
+  name: job-cleaner-role
+  apiGroup: rbac.authorization.k8s.io

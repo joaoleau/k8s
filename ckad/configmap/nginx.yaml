@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: nginx
+  name: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: nginx:1.16.1
+        name: nginx
+        resources: {}
+        volumeMounts:
+          - name: config
+            mountPath: "/isalinda"
+      volumes:
+      - name: config
+        configMap:
+          name: config
+
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+          - key: zone
+            operator: In #In, NotIn, Exists, DoesNotExist, Gt and Lt.
+            values:
+            - us-east-1a
+      - weight: 10
+        preference:
+          matchExpressions:
+          - key: role
+            operator: In #In, NotIn, Exists, DoesNotExist, Gt and Lt.
+            values:
+            - apps
+status: {}
+
