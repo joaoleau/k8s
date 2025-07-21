@@ -27,4 +27,6 @@ kubebuilder-tools-*
 /.terraform
 *tfstate
 desktop.ini
-_cluster/k3s/*
+_cluster/k3s/.*
+_cluster/k3s/*.log
+_cluster/k3s/node-token
