@@ -1,5 +1,0 @@
-Reiniciar o Nginx:
-docker exec nginx nginx -T
-docker exec nginx nginx -s reload
-
-Modificar hosts do SO: Windows/System32/drivers/etc/hosts
