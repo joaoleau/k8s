@@ -1,0 +1,39 @@
+Vagrant.configure("2") do |config|
+  nodes = [
+    { hostname: "k3s-master", ip: "192.168.56.10", role: "master" },
+    { hostname: "k3s-worker", ip: "192.168.56.11", role: "worker" },
+    { hostname: "k3s-worker2", ip: "192.168.56.12", role: "worker" }
+  ]
+
+  config.vm.box = "ubuntu/bionic64"
+  config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
+
+  nodes.each do |node|
+    config.vm.define node[:hostname] do |nodeconfig|
+      nodeconfig.vm.hostname = node[:hostname]
+      nodeconfig.vm.network :private_network, ip: node[:ip]
+      nodeconfig.disksize.size = '30GB'
+      nodeconfig.vm.provider "virtualbox" do |vb|
+        vb.memory = 1024
+        vb.cpus = 1
+      end
+
+      nodeconfig.vm.provision "shell", inline: <<-SHELL
+        apt-get update && apt-get upgrade -y
+        apt-get install -y curl socat iptables conntrack
+
+        if [ "#{node[:role]}" = "master" ]; then
+          curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--node-ip=#{node[:ip]} --flannel-iface=enp0s8 --tls-san=#{node[:ip]} --disable servicelb --disable traefik" sh -
+          cp /var/lib/rancher/k3s/server/node-token /vagrant/node-token
+        else
+          while [ ! -f /vagrant/node-token ]; do
+            echo "Esperando token do master..."
+            sleep 3
+          done
+          TOKEN=$(cat /vagrant/node-token)
+          curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--node-ip=#{node[:ip]} --flannel-iface=enp0s8" K3S_URL="https://192.168.56.10:6443" K3S_TOKEN="$TOKEN" sh -
+        fi
+      SHELL
+    end
+  end
+end
