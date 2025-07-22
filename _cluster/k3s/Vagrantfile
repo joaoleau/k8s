@@ -2,7 +2,6 @@ Vagrant.configure("2") do |config|
   nodes = [
     { hostname: "k3s-master", ip: "192.168.56.10", role: "master" },
     { hostname: "k3s-worker", ip: "192.168.56.11", role: "worker" },
-    { hostname: "k3s-worker2", ip: "192.168.56.12", role: "worker" }
   ]
 
   config.vm.box = "ubuntu/bionic64"
@@ -12,10 +11,10 @@ Vagrant.configure("2") do |config|
     config.vm.define node[:hostname] do |nodeconfig|
       nodeconfig.vm.hostname = node[:hostname]
       nodeconfig.vm.network :private_network, ip: node[:ip]
-      nodeconfig.disksize.size = '30GB'
+      nodeconfig.disksize.size = '40GB'
       nodeconfig.vm.provider "virtualbox" do |vb|
-        vb.memory = 1024
-        vb.cpus = 1
+        vb.memory = 2664
+        vb.cpus = 2
       end
 
       nodeconfig.vm.provision "shell", inline: <<-SHELL

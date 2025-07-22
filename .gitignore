@@ -21,7 +21,7 @@ bin
 argo-cd
 
 kubebuilder-tools-*
-
+.kube/
 .vscode
 *.terraform
 /.terraform
@@ -30,3 +30,7 @@ desktop.ini
 _cluster/k3s/.*
 _cluster/k3s/*.log
 _cluster/k3s/node-token
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform*

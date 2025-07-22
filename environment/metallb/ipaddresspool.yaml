@@ -2,7 +2,7 @@ apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
   name: private-subnet-pool
-  namespace: metallb-system
+  namespace: metallb
 spec:
   addresses:
   - 192.168.56.100-192.168.56.110
@@ -11,7 +11,7 @@ apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
   name: private-subnet-pool-advertisement
-  namespace: metallb-system
+  namespace: metallb
 spec:
   ipAddressPools:
     - private-subnet-pool
