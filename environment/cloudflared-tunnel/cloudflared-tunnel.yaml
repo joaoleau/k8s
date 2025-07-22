@@ -19,7 +19,7 @@ spec:
       containers:
       - image: cloudflare/cloudflared:latest
         name: cloudflared-tunnel
-        command: ["sh", "-c", "cloudflared tunnel --no-autoupdate run --token $TUNNEL_TOKEN"]
+        command: ["/bin/sh", "-c", "cloudflared tunnel --no-autoupdate run --token $TUNNEL_TOKEN"]
         resources:
           limits:
             memory: 64Mi
