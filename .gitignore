@@ -34,3 +34,4 @@ _cluster/k3s/node-token
 *.tfstate.backup
 .terraform/
 .terraform*
+**/*secret*
