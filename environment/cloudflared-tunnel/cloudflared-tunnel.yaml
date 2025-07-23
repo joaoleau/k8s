@@ -17,9 +17,9 @@ spec:
         app: cloudflared-tunnel
     spec:
       containers:
-      - image: cloudflare/cloudflared:latest
+      - image: leeegiit/cloudflared-tunnel:latest
         name: cloudflared-tunnel
-        command: ["/bin/sh", "-c", "cloudflared tunnel --no-autoupdate run --token $TUNNEL_TOKEN"]
+        args: ["$(TUNNEL_TOKEN)"]
         resources:
           limits:
             memory: 64Mi

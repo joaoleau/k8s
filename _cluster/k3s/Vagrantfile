@@ -4,7 +4,7 @@ Vagrant.configure("2") do |config|
     { hostname: "k3s-worker", ip: "192.168.56.11", role: "worker" },
   ]
 
-  config.vm.box = "ubuntu/bionic64"
+  config.vm.box = "debian/bookworm64"
   config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
 
   nodes.each do |node|
@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
         apt-get install -y curl socat iptables conntrack
 
         if [ "#{node[:role]}" = "master" ]; then
-          curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--node-ip=#{node[:ip]} --flannel-iface=enp0s8 --tls-san=#{node[:ip]} --disable servicelb --disable traefik" sh -
+          curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--node-ip=#{node[:ip]} --flannel-iface=eth1 --tls-san=#{node[:ip]} --disable servicelb --disable traefik" sh -
           cp /var/lib/rancher/k3s/server/node-token /vagrant/node-token
         else
           while [ ! -f /vagrant/node-token ]; do
@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
             sleep 3
           done
           TOKEN=$(cat /vagrant/node-token)
-          curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--node-ip=#{node[:ip]} --flannel-iface=enp0s8" K3S_URL="https://192.168.56.10:6443" K3S_TOKEN="$TOKEN" sh -
+          curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--node-ip=#{node[:ip]} --flannel-iface=eth1" K3S_URL="https://192.168.56.10:6443" K3S_TOKEN="$TOKEN" sh -
         fi
       SHELL
     end
