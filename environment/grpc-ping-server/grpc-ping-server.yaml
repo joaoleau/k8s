@@ -20,6 +20,8 @@ spec:
     spec:
       containers:
       - image: joaoleau/grpc-ping-sever
+        imagePullSecrets:
+        - name: docker-registry
         name: grpc-ping-sever
         env:
         - name: PORT
