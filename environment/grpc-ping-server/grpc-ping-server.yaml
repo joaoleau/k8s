@@ -18,10 +18,10 @@ spec:
       labels:
         app: grpc-ping-server
     spec:
+      imagePullSecrets:
+      - name: docker-registry
       containers:
       - image: joaoleau/grpc-ping-sever
-        imagePullSecrets:
-        - name: docker-registry
         name: grpc-ping-sever
         env:
         - name: PORT

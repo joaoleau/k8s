@@ -18,11 +18,11 @@ spec:
       labels:
         app: prometheus-blackbox-exporter
     spec:
+      imagePullSecrets:
+      - name: docker-registry
       containers:
       - image: joaoleau/prometheus-blackbox-exporter:latest
         name: prometheus-blackbox-exporter
-        imagePullSecrets:
-        - name: docker-registry
         volumeMounts:
         - mountPath: /etc/blackbox_exporter/config.yml
           name: config
