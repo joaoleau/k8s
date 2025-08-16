@@ -854,7 +854,7 @@ spec:
               module: [grpc_ping]
             static_configs:
               - targets:
-                - http://grpc-ping-server.apps.svc.cluster.local:50051
+                - grpc-ping-server.apps.svc.cluster.local:50051
             relabel_configs:
               - source_labels: [__address__]
                 target_label: __param_target
