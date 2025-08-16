@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: grpc-ping-server
+  name: grpc-ping-server
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grpc-ping-server
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: grpc-ping-server
+    spec:
+      containers:
+      - image: joaoleau/grpc-ping-sever
+        name: grpc-ping-sever
+        env:
+        - name: PORT
+          value: ":50051"
+        
+        ports:
+        - containerPort: 50051
+          name: grpc
+          protocol: TCP
+        
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: grpc-ping-sever
+  name: grpc-ping-sever
+  namespace: apps
+spec:
+  ports:
+  - name: grpc
+    port: 50051
+    protocol: TCP
+    targetPort: 50051
+  selector:
+    app: grpc-ping-server
+  type: ClusterIP
+status:
+  loadBalancer: {}
