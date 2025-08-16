@@ -22,7 +22,7 @@ spec:
       - name: docker-registry
       containers:
       - image: joaoleau/grpc-ping-server
-        name: grpc-ping-sever
+        name: grpc-ping-server
         env:
         - name: PORT
           value: ":50051"
@@ -40,8 +40,8 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app: grpc-ping-sever
-  name: grpc-ping-sever
+    app: grpc-ping-server
+  name: grpc-ping-server
   namespace: apps
 spec:
   ports:
