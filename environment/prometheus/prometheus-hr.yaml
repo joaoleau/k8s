@@ -861,7 +861,7 @@ spec:
               - source_labels: [__param_target]
                 target_label: instance
               - target_label: __address__
-                replacement: prometheus-blackbox-exporter.prometheus.svc.cluster.local:9115
+                replacement: prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
 
         # Adds option to add alert_relabel_configs to avoid duplicate alerts in alertmanager
         # useful in H/A prometheus with different external labels but the same alerts

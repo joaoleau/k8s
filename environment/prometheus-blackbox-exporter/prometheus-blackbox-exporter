@@ -5,7 +5,7 @@ metadata:
   labels:
     app: prometheus-blackbox-exporter
   name: prometheus-blackbox-exporter
-  namespace: prometheus
+  namespace: monitoring
 spec:
   replicas: 1
   selector:

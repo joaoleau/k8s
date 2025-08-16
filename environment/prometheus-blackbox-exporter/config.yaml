@@ -80,4 +80,4 @@ kind: ConfigMap
 metadata:
   creationTimestamp: null
   name: prometheus-blackbox-exporter-config
-  namespace: prometheus
+  namespace: monitoring
